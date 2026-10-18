@@ -1,0 +1,22 @@
+name: Java correctness checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '26'
+      - name: Compile plain Java sources
+        run: |
+          mkdir -p out
+          find src -name '*.java' > out/sources.txt
+          javac --release 17 -encoding UTF-8 -d out @out/sources.txt
+      - name: Run correctness checks
+        run: java -cp out AlgorithmTests
+      - name: Run city demonstration
+        run: java -cp out Main
