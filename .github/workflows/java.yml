@@ -20,3 +20,5 @@ jobs:
         run: java -cp out AlgorithmTests
       - name: Run city demonstration
         run: java -cp out Main
+      - name: Check submitted tables and plots
+        run: java -Djava.awt.headless=true -cp out ResultsChecks
